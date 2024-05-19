@@ -7,6 +7,15 @@ import time
 class GetInfoFromWebsites:
     def __init__(self):
         self.map1 = {}
+        self.proxies = {
+            "http1": "http://117.250.3.58:8080",
+            "http2": "http://115.96.208.124:8080",
+            "http2": "http://152.67.0.109:80",
+            "http4": "http://45.87.68.2:15321",
+            "http5": "http://68.178.170.59:80",
+            "http6": "http://20.235.104.105:3729",
+            "http7": "http://195.201.34.206:80"
+        }
 
     def get_cian_offers_page_count(self, price_range: tuple, rooms_area_room: int, rooms_area_area: tuple) -> int:
         offers_page_count = 0
@@ -21,7 +30,7 @@ class GetInfoFromWebsites:
                 "total_area": {"type": "range", "value": {"gte": rooms_area_area[0], "lte": rooms_area_area[1]}}
                 }
 
-        response = requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data, headers=headers, proxies=self.proxies)
         if response.status_code == 200:
             response_string = response.text
             x = json.loads(response_string, object_hook=lambda d: SimpleNamespace(**d))
@@ -46,7 +55,7 @@ class GetInfoFromWebsites:
                               "sort": {"type": "term", "value": "price_object_order"},
                               "total_area": {"type": "range", "value": {"gte": rooms_area_area[0], "lte": rooms_area_area[1]}}
                               }}
-        response = requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data, headers=headers, proxies=self.proxies)
         if response.status_code == 200:
             return response.text
         else:
@@ -68,7 +77,7 @@ class GetInfoFromWebsites:
                               "total_area": {"type": "range", "value": {"gte": rooms_area_area[0], "lte": rooms_area_area[1]}},
                               "multi_id": {"type": "term", "value": multi_id}
                               }}
-        response = requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data, headers=headers, proxies=self.proxies)
         if response.status_code == 200:
             return response.text
         else:
@@ -88,7 +97,7 @@ class GetInfoFromWebsites:
                 "offset": 0,
                 "count": 25,
                 "userCanUseHiddenBase": False}
-        response = requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data, headers=headers, proxies=self.proxies)
         if response.status_code == 200:
             response_string = response.text
             # print(response_string)

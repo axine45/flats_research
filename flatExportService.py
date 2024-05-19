@@ -14,7 +14,7 @@ class FlatExportService:
     #     4: [(1, 150)]
     # }
     rooms_area = {
-        1: [(36, 37)]
+        1: [(37, 37)]
     }
 
     def export_flat_info_from_cian(self):
@@ -36,6 +36,8 @@ class FlatExportService:
                     flats_info = self.get_cian_data(key, mapper_dto, offer_info, page, value, error_pages_list)
         writer_to_csv.write_info_to_txt_file("cian_error_pages", error_pages_list)
         set_multi_ids = writer_to_csv.read_multi_status_from_csv_file(cian_csv)
+        set_multi_ids_list = list(set_multi_ids)
+
         for multi_id in set_multi_ids:
             for key, values in self.rooms_area.items():
                 for value in values:
@@ -47,6 +49,8 @@ class FlatExportService:
                         time.sleep(5)
                         page = page + 1
                         flats_similar_info = self.get_cian_similar_data(key, mapper_dto, offer_info, page, value, error_pages_list, multi_id)
+            writer_to_csv.write_ids_to_txt_file("cian_multi_ids", multi_id)
+            print(multi_id)
         writer_to_csv.write_info_to_txt_file("cian_error_pages", error_pages_list)
 
 

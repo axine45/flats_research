@@ -19,8 +19,8 @@ class workWithCSV:
             column_flat_similar_status = 13
             column_flat_similar_count = 14
             for flat_info_row in csv_reader:
-                similar_status = bool(flat_info_row[column_flat_similar_status])
-                if similar_status == True:
+                similar_status = flat_info_row[column_flat_similar_status]
+                if similar_status == 'True':
                     multi_id = int(flat_info_row[column_flat_offer_id])
                     flat_similar_count_all = flat_similar_count_all + int(flat_info_row[column_flat_similar_count])
                     multi_ids.add(multi_id)
@@ -34,6 +34,11 @@ class workWithCSV:
             writer = csv.writer(file_txt)
             for error_page in error_pages:
                 file_txt.write(str(error_page) + "\n")
+
+    def write_ids_to_txt_file(self, file_name_txt: str, multi_id):
+        with open(file_name_txt + ".txt", "a", newline="") as file_txt:
+            writer = csv.writer(file_txt)
+            file_txt.write(str(multi_id) + "\n")
 
 # n = workWithCSV()
 # n.read_multi_status_from_csv_file("cian")
